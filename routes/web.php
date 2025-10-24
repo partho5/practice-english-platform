@@ -1,18 +1,26 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Speaking\NotificationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', [ProfileController::class, 'showHomepage']);
+
+
+
+Route::middleware('auth')->prefix('speaking')->group(function () {
+    Route::post('/subscribe', [NotificationController::class, 'subscribe'])->name('speaking.subscribe');
+    Route::post('/notification', [NotificationController::class, 'sendNotification'])->name('speaking.notification');
+
+    // Requests page (create controller method later)
+    Route::get('/requests', function () {
+        return Inertia::render('Speaking/Requests');
+    })->name('speaking.requests');
 });
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -25,3 +33,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/speaking.php';
