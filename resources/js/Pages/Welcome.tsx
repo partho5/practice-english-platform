@@ -10,6 +10,7 @@ import NotificationBanner from "@/Components/Speaking/NotificationBanner";
 
 interface WelcomePageProps extends PageProps {
     users: User[];
+    hasSubscriptions: boolean;
 }
 
 export default function Welcome({ auth, users, hasSubscriptions  }: WelcomePageProps) {
@@ -58,7 +59,6 @@ export default function Welcome({ auth, users, hasSubscriptions  }: WelcomePageP
                             <PartnerCard
                                 key={user.id}
                                 user={user}
-                                isAuthenticated={!!auth.user}
                                 onContactClick={handleContactClick}
                                 onFavoriteToggle={handleFavoriteToggle}
                             />

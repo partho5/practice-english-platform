@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { UserCardProps } from '@/types/User';
-import AudioPlayer from './AudioPlayer';
-import YouTubeEmbed from './YouTubeEmbed';
+import AudioPlayer from "@/Components/Speaking/Shared/AudioPlayer";
+import YouTubeEmbed from "@/Components/Speaking/Shared/YouTubeEmbed";
 
 export default function UserCard({ user, isAuthenticated, onContactClick }: UserCardProps) {
     const [showContact, setShowContact] = useState(false);
@@ -12,7 +12,7 @@ export default function UserCard({ user, isAuthenticated, onContactClick }: User
             window.location.href = route('login');
             return;
         }
-        
+
         if (showContact) {
             setShowContact(false);
         } else {
@@ -54,7 +54,7 @@ export default function UserCard({ user, isAuthenticated, onContactClick }: User
                             </div>
                         )}
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                         <h3 className="text-lg font-semibold text-gray-900 truncate">{user.name}</h3>
                         <div className="mt-1">

@@ -2,13 +2,13 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    profile_picture?: string;
+    profile_picture: string | null;
     purpose_of_practice: PracticePurpose;
     education: string;
     institution: string;
     district: string;
     city: string;
-    expected_score?: string;
+    expected_score?: string |null;
     career_plan: string;
     voice_intro_url?: string;
     youtube_video_url?: string;

@@ -1,36 +1,20 @@
 import React from "react";
 import { Phone, Mail, Linkedin, Globe, Play, Volume2 } from 'lucide-react';
 import {handleConnectRequest, isRequestSent} from "@/utils/speakingConnectHandler";
+import {User} from "@/types/User";
 
-
-type ContactLinks = {
-    whatsapp?: string;
-    [key: string]: string | undefined;
-};
-
-type User = {
-    id: number;
-    name: string;
-    profile_picture: string | null;
-    purpose_of_practice: string;
-    education: string;
-    institution: string;
-    district: string;
-    city: string;
-    expected_score: number | null;
-    career_plan: string;
-    voice_intro_url: string | null;
-    youtube_video_url: string | null;
-    contact_links: ContactLinks;
-    created_at: string;
-    updated_at: string;
-};
 
 type PartnerCardProps = {
     user: User;
+    onContactClick: (user: User) => void;  // Changed from userId: number
+    onFavoriteToggle: (userId: number) => void;
 };
 
-export default function PartnerCard({ user }: PartnerCardProps) {
+export default function PartnerCard({
+                                        user,
+                                        onContactClick,
+                                        onFavoriteToggle
+                                    }: PartnerCardProps) {
 
     const handleConnect = (userId: number) => {
         handleConnectRequest(userId);

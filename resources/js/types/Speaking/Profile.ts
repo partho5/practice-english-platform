@@ -16,7 +16,7 @@ export interface SpeakingProfile {
     preferred_days?: string[];
     skill_level: SkillLevel;
     native_language?: string;
-    interests?: string[];
+    interests?: string;
     is_online: boolean;
     is_available: boolean;
     is_verified: boolean;
@@ -65,7 +65,7 @@ export interface ProfileFormData {
     preferred_days?: string[];
     skill_level: SkillLevel;
     native_language?: string;
-    interests?: string[];
+    interests?: string;
     is_online?: boolean;
     is_available?: boolean;
     contact_links?: ContactLinkFormData[];
@@ -75,16 +75,6 @@ export interface ContactLinkFormData {
     platform: ContactPlatform;
     value: string;
     is_public: boolean;
-}
-
-export interface ProfileFilters {
-    purpose_of_practice?: PracticePurpose;
-    skill_level?: SkillLevel;
-    city?: string;
-    district?: string;
-    is_online?: boolean;
-    is_verified?: boolean;
-    interests?: string[];
 }
 
 export interface ProfileSearchOptions {
