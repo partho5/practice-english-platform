@@ -11,7 +11,7 @@ Route::get('/', [ProfileController::class, 'showHomepage']);
 
 
 Route::prefix('speaking')->group(function () {
-    Route::post('/subscribe', [NotificationController::class, 'subscribe'])->name('speaking.subscribe');
+    Route::match(['get', 'post'],'/subscribe', [NotificationController::class, 'subscribe'])->name('speaking.subscribe');
     Route::post('/notification', [NotificationController::class, 'sendNotification'])->name('speaking.notification');
 
     // Requests page (create controller method later)
