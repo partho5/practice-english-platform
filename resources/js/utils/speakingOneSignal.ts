@@ -28,6 +28,8 @@ export const subscribeToOneSignal = async (): Promise<boolean> => {
             await OneSignal.Slidedown.promptPush();
 
             OneSignal.User.PushSubscription.addEventListener('change', async function(event: any) {
+                console.log(event.toString())
+                console.log(event)
                 if (event.current.id) {
                     try {
                         await axios.post('/speaking/subscribe', {
