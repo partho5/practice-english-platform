@@ -10,7 +10,7 @@ Route::get('/', [ProfileController::class, 'showHomepage']);
 
 
 
-Route::middleware('auth')->prefix('speaking')->group(function () {
+Route::prefix('speaking')->group(function () {
     Route::post('/subscribe', [NotificationController::class, 'subscribe'])->name('speaking.subscribe');
     Route::post('/notification', [NotificationController::class, 'sendNotification'])->name('speaking.notification');
 

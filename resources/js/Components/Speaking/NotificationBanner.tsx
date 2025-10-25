@@ -8,6 +8,7 @@ interface NotificationBannerProps {
 }
 
 export default function NotificationBanner({ hasSubscriptions }: NotificationBannerProps) {
+    hasSubscriptions = localStorage.getItem('hasSubscribedOnesignal') === "true";
     const [isVisible, setIsVisible] = useState(!hasSubscriptions);
     const [isLoading, setIsLoading] = useState(false);
 

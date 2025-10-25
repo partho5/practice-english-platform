@@ -33,7 +33,8 @@ export const subscribeToOneSignal = async (): Promise<boolean> => {
                         await axios.post('/speaking/subscribe', {
                             player_id: event.current.id
                         });
-                        console.log('Subscription saved:', event.current.id);
+                        console.log('Subscription saved, player_id:', event.current.id);
+                        localStorage.setItem('hasSubscribedOnesignal', "true");
                         resolve(true);
                     } catch (error) {
                         console.error('Failed to save subscription:', error);

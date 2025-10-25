@@ -6,10 +6,6 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- OneSignal SDK -->
-        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
-
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
