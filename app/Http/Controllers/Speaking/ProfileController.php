@@ -83,6 +83,8 @@ class ProfileController extends Controller
             return $path;
         }
 
+        dd(asset('storage/app/public/' . $path));
+
         // Check if we're on production (config compatible to  Hostinger shared hosting)
         if (app()->environment('production')) {
             return asset('storage/app/public/' . $path);
