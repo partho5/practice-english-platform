@@ -9,6 +9,9 @@ export default function Requests() {
 
             <div className="min-h-screen bg-gray-100">
                 <div className="container mx-auto px-4 py-8">
+                    <div>
+                        <a href="/">⬅Home</a>
+                    </div>
                     <h1 className="text-3xl font-bold mb-6">Speaking Practice Requests</h1>
 
                     <div className="bg-white rounded-lg shadow-md p-8 text-center">

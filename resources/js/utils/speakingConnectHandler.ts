@@ -34,8 +34,8 @@ export const handleConnectRequest = async (targetUserId: number, userMyself: any
         if (response.data.success) {
             // Save to localStorage
             localStorage.setItem(storageKey, 'true');
-
-            alert(`Connection request sent successfully! Notified ${response.data.sent_to_devices || 1} device(s).`);
+            // console.log(`Connection request Notified ${response.data.sent_to_devices || 1} device(s).`)
+            alert(`Connection request sent successfully!`);
         } else {
             alert(response.data.message || 'Failed to send connection request.');
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Speaking;
 
 use App\Http\Controllers\Controller;
 use App\Models\Speaking\SpeakingPushSubscription;
+use App\Models\SpeakingNotificationLog;
 use App\Models\User;
 use App\Services\Speaking\OneSignalService;
 use Illuminate\Http\Request;
@@ -110,7 +111,7 @@ class NotificationController extends Controller
 
             if (empty($playerIds)) {
                 // Log failed attempt
-                Log::create([
+                SpeakingNotificationLog::create([
                     'sender_id' => $senderId,
                     'receiver_id' => $receiverId,
                     'player_ids_sent' => [],
@@ -132,13 +133,13 @@ class NotificationController extends Controller
             ]);
 
             // Log the attempt
-//            SpeakingNotificationLog::create([
-//                'sender_id' => $senderId,
-//                'receiver_id' => $receiverId,
-//                'player_ids_sent' => $playerIds,
-//                'status' => $result['success'] ? 'success' : 'failed',
-//                'error_message' => $result['error']
-//            ]);
+            SpeakingNotificationLog::create([
+                'sender_id' => $senderId,
+                'receiver_id' => $receiverId,
+                'player_ids_sent' => $playerIds,
+                'status' => $result['success'] ? 'success' : 'failed',
+                'error_message' => $result['error']
+            ]);
 
             if ($result['success']) {
                 return response()->json([
@@ -156,13 +157,13 @@ class NotificationController extends Controller
 
         } catch (\Exception $e) {
             // Log exception
-//            SpeakingNotificationLog::create([
-//                'sender_id' => $senderId,
-//                'receiver_id' => $receiverId,
-//                'player_ids_sent' => $playerIds ?? [],
-//                'status' => 'failed',
-//                'error_message' => $e->getMessage()
-//            ]);
+            SpeakingNotificationLog::create([
+                'sender_id' => $senderId,
+                'receiver_id' => $receiverId,
+                'player_ids_sent' => $playerIds ?? [],
+                'status' => 'failed',
+                'error_message' => $e->getMessage()
+            ]);
 
             return response()->json([
                 'success' => false,

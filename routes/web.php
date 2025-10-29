@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Speaking\NotificationController;
 use Illuminate\Foundation\Application;
@@ -7,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [ProfileController::class, 'showHomepage']);
+Route::get('/about', [PageController::class, 'showAboutPage']);
 
 
 

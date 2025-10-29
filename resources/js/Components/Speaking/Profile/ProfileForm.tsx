@@ -192,7 +192,7 @@ export default function ProfileForm({ initialData, onSubmit, isLoading = false }
 
 
       // @ts-ignore
-        let isValid = await form.trigger(steps[currentStep].fields);
+      let isValid = await form.trigger(steps[currentStep].fields);
       console.log(steps[currentStep].fields);
 
         // Additional validation for step 1 (contact methods)
@@ -201,6 +201,7 @@ export default function ProfileForm({ initialData, onSubmit, isLoading = false }
             const hasContact = whatsapp || telegram || facebook || email;
 
             if (!hasContact) {
+                alert('At least one contact method is required')
                 // @ts-ignore
                 form.setError('contact_required', {
                     type: 'manual',
