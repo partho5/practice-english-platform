@@ -132,13 +132,13 @@ class NotificationController extends Controller
             ]);
 
             // Log the attempt
-            SpeakingNotificationLog::create([
-                'sender_id' => $senderId,
-                'receiver_id' => $receiverId,
-                'player_ids_sent' => $playerIds,
-                'status' => $result['success'] ? 'success' : 'failed',
-                'error_message' => $result['error']
-            ]);
+//            SpeakingNotificationLog::create([
+//                'sender_id' => $senderId,
+//                'receiver_id' => $receiverId,
+//                'player_ids_sent' => $playerIds,
+//                'status' => $result['success'] ? 'success' : 'failed',
+//                'error_message' => $result['error']
+//            ]);
 
             if ($result['success']) {
                 return response()->json([
@@ -156,13 +156,13 @@ class NotificationController extends Controller
 
         } catch (\Exception $e) {
             // Log exception
-            SpeakingNotificationLog::create([
-                'sender_id' => $senderId,
-                'receiver_id' => $receiverId,
-                'player_ids_sent' => $playerIds ?? [],
-                'status' => 'failed',
-                'error_message' => $e->getMessage()
-            ]);
+//            SpeakingNotificationLog::create([
+//                'sender_id' => $senderId,
+//                'receiver_id' => $receiverId,
+//                'player_ids_sent' => $playerIds ?? [],
+//                'status' => 'failed',
+//                'error_message' => $e->getMessage()
+//            ]);
 
             return response()->json([
                 'success' => false,
