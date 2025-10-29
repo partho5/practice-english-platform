@@ -17,6 +17,8 @@ class ProfileController extends Controller
 {
     public function showHomepage()
     {
+        $fileProcessor = new FileProcessor();
+
         // Fetch users with speaking profiles for the homepage
         $users = \App\Models\Speaking\SpeakingProfile::with(['user', 'contactLinks'])
             ->available()
@@ -24,12 +26,12 @@ class ProfileController extends Controller
             ->orderBy('last_active_at', 'desc')
             ->limit(12)
             ->get()
-            ->map(function ($profile) {
+            ->map(function ($profile) use($fileProcessor) {
                 return [
                     'id' => $profile->user_id,
                     'name' => $profile->user->name,
-                    'profile_picture' => FileProcessor::buildFullImagePath($profile->profile_picture) ?? '',
-                    'voice_intro_url' => FileProcessor::buildFullImagePath($profile->voice_intro_url) ?? '',
+                    'profile_picture' => $fileProcessor->buildFullFilePath($profile->profile_picture) ?? '',
+                    'voice_intro_url' => $fileProcessor->buildFullFilePath($profile->voice_intro_url) ?? '',
                     'purpose_of_practice' => $profile->purpose_of_practice,
                     'education' => $profile->education,
                     'institution' => $profile->institution,

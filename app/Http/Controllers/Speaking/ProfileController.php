@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Speaking;
 
+use App\helpers\processor\FileProcessor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Speaking\ProfileDetailsRequest;
 use App\Models\Speaking\SpeakingProfile;
@@ -28,6 +29,8 @@ class ProfileController extends Controller
         $profile = $user->speakingProfile;
         $contactLinks = $user->contactLinks;
 
+        $fileProcessor = new FileProcessor();
+
         // Calculate profile completion
         $completionData = null;
         if ($profile) {
@@ -43,8 +46,8 @@ class ProfileController extends Controller
                 'skill_level' => $profile->skill_level,
                 'expected_score' => $profile->expected_score ?? '',
                 'career_plan' => $profile->career_plan,
-                'profile_picture' => $this->buildFullFilePath($profile->profile_picture) ?? '',
-                'voice_intro_url' => $this->buildFullFilePath($profile->voice_intro_url) ?? '',
+                'profile_picture' => $fileProcessor->buildFullFilePath($profile->profile_picture) ?? '',
+                'voice_intro_url' => $fileProcessor->buildFullFilePath($profile->voice_intro_url) ?? '',
                 'youtube_video_url' => $profile->youtube_video_url ?? '',
                 'education' => $profile->education,
                 'institution' => $profile->institution,
@@ -64,34 +67,6 @@ class ProfileController extends Controller
             'initialData' => $initialData,
             'status' => session('status'),
         ]);
-    }
-
-    /**
-     * Build full image path with storage prefix
-     *
-     * @param string|null $path
-     * @return string|null
-     */
-    private function buildFullFilePath(?string $path): ?string
-    {
-        if (empty($path)) {
-            return null;
-        }
-
-        // If it's already a full URL, return as is
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return $path;
-        }
-
-        dd(asset('storage/app/public/' . $path));
-
-        // Check if we're on production (config compatible to  Hostinger shared hosting)
-        if (app()->environment('production')) {
-            return asset('storage/app/public/' . $path);
-        }
-
-        // Return path with storage prefix
-        return asset('storage/' . $path);
     }
 
     /**
