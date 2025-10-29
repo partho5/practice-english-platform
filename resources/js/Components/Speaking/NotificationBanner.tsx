@@ -2,14 +2,17 @@
 
 import { useState } from 'react';
 import {subscribeToOneSignal} from "@/utils/speakingOneSignal";
+import {usePage} from "@inertiajs/react";
 
 interface NotificationBannerProps {
     hasSubscriptions: boolean;
 }
 
 export default function NotificationBanner({ hasSubscriptions }: NotificationBannerProps) {
+    const user = usePage().props.auth?.user;
+
     hasSubscriptions = localStorage.getItem('hasSubscribedOnesignal') === "true";
-    const [isVisible, setIsVisible] = useState(!hasSubscriptions);
+    const [isVisible, setIsVisible] = useState(!hasSubscriptions && !!user); // user is logged in and not subscribed
     const [isLoading, setIsLoading] = useState(false);
 
     if (!isVisible) return null;
@@ -56,8 +59,8 @@ export default function NotificationBanner({ hasSubscriptions }: NotificationBan
                         </svg>
                         <p className="text-sm md:text-base">
                             To connect with others
-                            <strong className="mx-1">Enable</strong>
-                            notifications
+                            <strong className="mx-1">Allow</strong>
+                            notification
                         </p>
                     </div>
 
@@ -67,14 +70,14 @@ export default function NotificationBanner({ hasSubscriptions }: NotificationBan
                             disabled={isLoading}
                             className="px-4 py-2 bg-white text-blue-600 font-semibold rounded hover:bg-gray-100 transition disabled:opacity-50"
                         >
-                            {isLoading ? 'Enabling...' : 'Enable'}
+                            {isLoading ? 'Ok, please Allow' : 'I will allow'}
                         </button>
                         <button
                             onClick={handleLater}
                             disabled={isLoading}
                             className="px-4 py-2 bg-transparent border border-white rounded hover:bg-blue-700 transition disabled:opacity-50"
                         >
-                            Later
+                            Close
                         </button>
                     </div>
                 </div>

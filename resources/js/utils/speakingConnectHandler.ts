@@ -1,6 +1,7 @@
 // resources/js/utils/speakingConnectHandler.ts
 
 import axios from 'axios';
+import {usePage} from "@inertiajs/react";
 
 interface ConnectResponse {
     success: boolean;
@@ -9,7 +10,13 @@ interface ConnectResponse {
     error?: string;
 }
 
-export const handleConnectRequest = async (targetUserId: number): Promise<void> => {
+export const handleConnectRequest = async (targetUserId: number, userMyself: any): Promise<void> => {
+    console.log('handleConnectRequest() user', userMyself);
+    if (!userMyself) {
+        window.location.href = '/login';
+        return;
+    }
+
     // Check if already sent
     const storageKey = `connection_request_${targetUserId}`;
     const alreadySent = localStorage.getItem(storageKey);

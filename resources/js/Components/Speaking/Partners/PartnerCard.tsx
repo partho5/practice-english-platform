@@ -2,22 +2,25 @@ import React from "react";
 import { Phone, Mail, Linkedin, Globe, Play, Volume2 } from 'lucide-react';
 import {handleConnectRequest, isRequestSent} from "@/utils/speakingConnectHandler";
 import {User} from "@/types/User";
+import {usePage} from "@inertiajs/react";
 
 
 type PartnerCardProps = {
-    user: User;
+    targetUser: User;
+    userMyself: any,
     onContactClick: (user: User) => void;  // Changed from userId: number
     onFavoriteToggle: (userId: number) => void;
 };
 
 export default function PartnerCard({
-                                        user,
+                                        targetUser,
+                                        userMyself,
                                         onContactClick,
                                         onFavoriteToggle
                                     }: PartnerCardProps) {
 
-    const handleConnect = (userId: number) => {
-        handleConnectRequest(userId);
+    const handleConnect = (targetUserId: number) => {
+        handleConnectRequest(targetUserId, userMyself);
     };
 
     return (
@@ -34,7 +37,7 @@ export default function PartnerCard({
                         <div className="flex justify-center -mt-16 mb-4">
                             <div className="relative">
                                 <img
-                                    src={user.profile_picture || "/images/avatar-male.png"}
+                                    src={targetUser.profile_picture || "/images/avatar-male.png"}
                                     alt="profile photo"
                                     className="w-28 h-28 rounded-2xl object-cover border-4 border-white shadow-lg"
                                 />
@@ -43,16 +46,16 @@ export default function PartnerCard({
                         </div>
 
                         <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-1">{user.name}</h2>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-1">{targetUser.name}</h2>
                             {/*<div className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-sm font-medium">*/}
                             {/*    Study Partner*/}
                             {/*</div>*/}
                         </div>
 
                         {/* Media Section */}
-                        {(user.voice_intro_url || user.youtube_video_url) && (
+                        {(targetUser.voice_intro_url || targetUser.youtube_video_url) && (
                             <div className="space-y-3 mb-6">
-                                {user.voice_intro_url && (
+                                {targetUser.voice_intro_url && (
                                     <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
                                         <div className="flex items-center gap-3 mb-3">
                                             <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
@@ -61,15 +64,15 @@ export default function PartnerCard({
                                             <div className="text-sm font-semibold text-gray-700">Voice Introduction</div>
                                         </div>
                                         <audio controls className="w-full h-10">
-                                            <source src={user.voice_intro_url} type="audio/mpeg" />
+                                            <source src={targetUser.voice_intro_url} type="audio/mpeg" />
                                             Your browser does not support audio.
                                         </audio>
                                     </div>
                                 )}
 
-                                {user.youtube_video_url && (
+                                {targetUser.youtube_video_url && (
                                     <a
-                                        href={user.youtube_video_url}
+                                        href={targetUser.youtube_video_url}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="flex items-center gap-3 bg-red-50 rounded-2xl p-4 border border-red-100 hover:bg-red-100 transition-colors"
@@ -88,41 +91,41 @@ export default function PartnerCard({
 
                         {/* Info Cards */}
                         <div className="space-y-3 mb-6">
-                            {user.purpose_of_practice && (
+                            {targetUser.purpose_of_practice && (
                                 <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-4 border border-indigo-100">
                                     <div className="text-xs font-semibold text-indigo-600  tracking-wider mb-1">Purpose</div>
-                                    <div className="text-gray-800 text-sm leading-relaxed">{user.purpose_of_practice}</div>
+                                    <div className="text-gray-800 text-sm leading-relaxed">{targetUser.purpose_of_practice}</div>
                                 </div>
                             )}
 
-                            {(user.education || user.institution) && (
+                            {(targetUser.education || targetUser.institution) && (
                                 <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-4 border border-blue-100">
                                     <div className="text-xs font-semibold text-blue-600  tracking-wider mb-2">Education</div>
                                     <div className="space-y-1">
-                                        {user.education && (
-                                            <div className="text-gray-800 text-sm font-medium">{user.education}</div>
+                                        {targetUser.education && (
+                                            <div className="text-gray-800 text-sm font-medium">{targetUser.education}</div>
                                         )}
-                                        {user.institution && (
-                                            <div className="text-gray-600 text-sm">{user.institution}</div>
+                                        {targetUser.institution && (
+                                            <div className="text-gray-600 text-sm">{targetUser.institution}</div>
                                         )}
                                     </div>
                                 </div>
                             )}
 
-                            {user.career_plan && (
+                            {targetUser.career_plan && (
                                 <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-4 border border-purple-100">
                                     <div className="text-xs font-semibold text-purple-600  tracking-wider mb-1">Career Path</div>
-                                    <div className="text-gray-800 text-sm leading-relaxed">{user.career_plan}</div>
+                                    <div className="text-gray-800 text-sm leading-relaxed">{targetUser.career_plan}</div>
                                 </div>
                             )}
                         </div>
 
                         {/* Contact Section */}
-                        {user.contact_links && Object.keys(user.contact_links).length > 0 && (
+                        {targetUser.contact_links && Object.keys(targetUser.contact_links).length > 0 && (
                             <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
                                 <div className="text-xs font-semibold text-gray-600  tracking-wider mb-3">Contact</div>
                                 <div className="space-y-2">
-                                    {Object.entries(user.contact_links).map(([method, value]) =>
+                                    {Object.entries(targetUser.contact_links).map(([method, value]) =>
                                             value && (
                                                 <div key={method} className="flex items-center gap-3 text-sm">
                                                     <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center flex-shrink-0 border border-gray-200">
@@ -144,10 +147,10 @@ export default function PartnerCard({
 
                         {/* Action Button */}
                         <button
-                            onClick={() => handleConnect(user.id)}
-                            disabled={isRequestSent(user.id)}
+                            onClick={() => handleConnect(targetUser.id)}
+                            disabled={isRequestSent(targetUser.id)}
                             className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200 active:scale-98">
-                            Connect {user.name.split(' ')[0]}
+                            Connect {targetUser.name.split(' ')[0]}
                         </button>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { PageProps } from '@/types';
-import { Head } from '@inertiajs/react';
+import {Head, usePage} from '@inertiajs/react';
 import { User } from '@/types/User';
 import Navbar from '@/Components/Navbar';
 import PartnerCard from '@/Components/Speaking/Partners/PartnerCard';
@@ -20,8 +20,9 @@ export default function Welcome({ auth, users, hasSubscriptions  }: WelcomePageP
         initOneSignal(ONESIGNAL_APP_ID);
     }, []);
 
-    const handleConnect = (userId: number) => {
-        handleConnectRequest(userId);
+    const userMyself = usePage().props.auth?.user;
+    const handleConnect = (targetUserId: number) => {
+        handleConnectRequest(targetUserId, userMyself);
     };
     const handleContactClick = (user: User) => {
         // This will be handled by the PartnerCard component
@@ -55,14 +56,18 @@ export default function Welcome({ auth, users, hasSubscriptions  }: WelcomePageP
 
                     {/* Users Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                        {users.map((user) => (
-                            <PartnerCard
-                                key={user.id}
-                                user={user}
-                                onContactClick={handleContactClick}
-                                onFavoriteToggle={handleFavoriteToggle}
-                            />
-                        ))}
+                        {users
+                            .filter((userProfile) => userProfile.id !== userMyself?.id)
+                            .map((userProfile) => (
+                                <PartnerCard
+                                    key={userProfile.id}
+                                    targetUser={userProfile}
+                                    userMyself={userMyself}
+                                    onContactClick={handleContactClick}
+                                    onFavoriteToggle={handleFavoriteToggle}
+                                />
+                            ))
+                        }
                     </div>
 
                     {/* Empty State */}
