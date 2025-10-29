@@ -28,6 +28,7 @@ class NotificationController extends Controller
      */
     public function subscribe(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'player_id' => 'required|string|max:255',
         ]);

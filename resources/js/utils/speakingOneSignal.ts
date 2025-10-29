@@ -28,14 +28,14 @@ export const subscribeToOneSignal = async (): Promise<boolean> => {
             await OneSignal.Slidedown.promptPush();
 
             OneSignal.User.PushSubscription.addEventListener('change', async function(event: any) {
-                console.log(event.toString())
-                console.log(event)
-                if (event.current.id) {
+                //console.log(event)
+                /* optedIn = true means subscribed, false means unsubscribed. */
+                if (event.current.id && event.current.optedIn) {
                     try {
-                        await axios.post('/speaking/subscribe', {
+                        const response = await axios.post('/speaking/subscribe', {
                             player_id: event.current.id
                         });
-                        console.log('Subscription saved, player_id:', event.current.id);
+                        console.log('Server response:', response.data);
                         localStorage.setItem('hasSubscribedOnesignal', "true");
                         resolve(true);
                     } catch (error) {
