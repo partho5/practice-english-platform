@@ -13,7 +13,7 @@
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Find Your Speaking Partner" />
-        <meta property="og:description" content="Find Your Perfect Speaking Partner Who Matches Your Level" />
+        <meta property="og:description" content="Need a Speaking Partner Who Matches Your Level ?" />
         <meta property="og:image" content="https://practice-english.jovoc.com/images/lets-practice-english-daily.png" />
         <meta property="og:url" content="https://practice-english.jovoc.com/" />
         <meta property="og:site_name" content="Practice English" />
