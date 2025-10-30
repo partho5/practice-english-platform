@@ -13,7 +13,7 @@ export default function Navbar({ auth }: NavbarProps) {
     const navigationItems = [
         { name: 'My Speaker Profile', href: '/speaking/profile' },
         { name: 'About', href: '/about' },
-        { name: 'Speaking Requests', href: '/speaking/requests' },
+        { name: 'Speaking Partners', href: '/speaking/partners' },
         { name: 'Vocabulary Preparation', href: 'https://vocabulary.jovoc.com/p/speaking' },
     ];
 

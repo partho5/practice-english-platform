@@ -7,6 +7,7 @@ use App\Models\Speaking\SpeakingProfile;
 use App\Models\Speaking\ContactLink;
 use App\Models\Speaking\Favorite;
 use App\Models\Speaking\UserInteraction;
+use App\Models\Speaking\ConnectionRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -124,5 +125,21 @@ class User extends Authenticatable
         }
 
         return $myProfile->getCompatibilityScore($otherProfile);
+    }
+
+    /**
+     * Get connection requests sent by this user.
+     */
+    public function sentConnectionRequests(): HasMany
+    {
+        return $this->hasMany(ConnectionRequest::class, 'sender_id');
+    }
+
+    /**
+     * Get connection requests received by this user.
+     */
+    public function receivedConnectionRequests(): HasMany
+    {
+        return $this->hasMany(ConnectionRequest::class, 'receiver_id');
     }
 }

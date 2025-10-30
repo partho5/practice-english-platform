@@ -41,7 +41,7 @@ class OneSignalService
                 'include_player_ids' => $playerIds,
                 'contents' => ['en' => $message],
                 'headings' => ['en' => 'Speaking Practice Request'],
-                'url' => url('/speaking/requests'), // Redirect on click
+                'url' => url('/speaking/partners'), // Redirect on click
             ];
 
             // Add custom data if provided
