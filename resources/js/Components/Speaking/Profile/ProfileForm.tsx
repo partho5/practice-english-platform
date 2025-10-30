@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { router } from '@inertiajs/react';
 import { ProfileFormData, PracticePurpose, SkillLevel } from '@/types/Speaking/Profile';
+import SpeakingHintsSection from "@/Components/Speaking/SpeakingHintsSection";
 
 // File upload configuration
 const FILE_CONFIG = {
@@ -382,6 +383,50 @@ export default function ProfileForm({ initialData, onSubmit, isLoading = false }
               )}
             </div>
 
+              {/* Voice Introduction */}
+              <div className="border-2 rounded-lg border-red-600 p-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Voice Introduction <span className="text-red-600">*</span>
+                  </label>
+                  <div>
+                      <p>ফোনে অডিও রেকর্ডার অন করুন। ইংলিশে কিছু বলুন। তারপর অডিও ফাইলটি এখানে আপলোড করুন, যাতে অন্যেরা আপনার স্পিকিং সম্পর্কে জানতে পারে এবং আপনার স্পিকিং পার্টনার হতে পারে</p>
+                      <SpeakingHintsSection />
+                  </div>
+                  <div>
+
+                      <audio controls>
+                          <source
+                              src={initialData?.voice_intro_url || ''}
+                              type={`audio/mpeg`}
+                          />
+                          Your browser did not support the audio.
+                      </audio>
+                  </div>
+                  <input
+                      ref={voiceIntroRef}
+                      type="file"
+                      accept="audio/*"
+                      required={true}
+                      onChange={(e) => handleFileChange('voice_intro_file', e.target.files?.[0] || null)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                  />
+                  {fileUploads.voice_intro_file.uploading && (
+                      <div className="mt-2">
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div
+                                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                  style={{ width: `${fileUploads.voice_intro_file.progress}%` }}
+                              />
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">Uploading...</p>
+                      </div>
+                  )}
+                  <p className="mt-1 text-xs sm:text-sm text-gray-500">
+                      Upload a <b>1-3 minute</b> voice (max 10MB)
+                      <span className="hidden">, formats: {FILE_CONFIG.allowedAudioFormats.join(', ')}</span>
+                  </p>
+              </div>
+
             {/* Career Plan */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -435,45 +480,6 @@ export default function ProfileForm({ initialData, onSubmit, isLoading = false }
               </p>
             </div>
 
-            {/* Voice Introduction */}
-            <div className="border-2 rounded-lg border-red-600 p-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Voice Introduction *
-              </label>
-                <div>
-
-                    <audio controls>
-                        <source
-                            src={initialData?.voice_intro_url || ''}
-                            type={`audio/mpeg`}
-                        />
-                        Your browser did not support the audio.
-                    </audio>
-                </div>
-                <input
-                    ref={voiceIntroRef}
-                    type="file"
-                    accept="audio/*"
-                    required={true}
-                    onChange={(e) => handleFileChange('voice_intro_file', e.target.files?.[0] || null)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-              />
-              {fileUploads.voice_intro_file.uploading && (
-                <div className="mt-2">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${fileUploads.voice_intro_file.progress}%` }}
-                    />
-                  </div>
-                  <p className="text-sm text-gray-600 mt-1">Uploading...</p>
-                </div>
-              )}
-              <p className="mt-1 text-xs sm:text-sm text-gray-500">
-                Upload a <b>1-3 minute</b> voice (max 10MB)
-                  <span className="hidden">, formats: {FILE_CONFIG.allowedAudioFormats.join(', ')}</span>
-              </p>
-            </div>
 
             {/* YouTube Video URL */}
             <div>
