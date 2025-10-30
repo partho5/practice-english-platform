@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import {usePage} from "@inertiajs/react";
+import {statusLabels} from "@/Pages/Speaking/SpeakingData";
 
 interface ConnectResponse {
     success: boolean;
@@ -55,4 +56,19 @@ export const handleConnectRequest = async (targetUserId: number, userMyself: any
 export const isRequestSent = (targetUserId: number): boolean => {
     const storageKey = `connection_request_${targetUserId}`;
     return localStorage.getItem(storageKey) === 'true';
+};
+
+/*
+* Remove 'connected' from dropdown, because user sending connection request is not supposed to mark themselves as 'connected'.
+* But once connection accepted, they may choose any status they wish.
+* */
+export const getAvailableStatusLabels = (activeTab: string, connectionStatus: string|null) => {
+    if (connectionStatus === 'connected') {
+        return statusLabels;
+    }
+    if (activeTab === 'sent') {
+        const { connected, ...rest } = statusLabels;
+        return rest;
+    }
+    return statusLabels;
 };

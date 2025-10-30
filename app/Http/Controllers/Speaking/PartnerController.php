@@ -71,6 +71,8 @@ class PartnerController extends Controller
                 return $userData;
             });
 
+        //dd($sentRequests);
+
         // 2. Get received connection requests
         $receivedRequests = $user->receivedConnectionRequests()
             ->with(['sender.speakingProfile.contactLinks'])

@@ -148,7 +148,7 @@ export default function PartnerCard({
                         {/* Action Button */}
                         <button
                             onClick={() => handleConnect(targetUser.id)}
-                            disabled={isRequestSent(targetUser.id)}
+                            // disabled={isRequestSent(targetUser.id)}
                             className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-4 rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200 active:scale-98">
                             Connect {targetUser.name.split(' ')[0]}
                         </button>

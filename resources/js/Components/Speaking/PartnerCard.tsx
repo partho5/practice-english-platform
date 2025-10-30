@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 import axios from 'axios';
+import {statusLabels} from "@/Pages/Speaking/SpeakingData";
+import {getAvailableStatusLabels} from "@/utils/speakingConnectHandler";
 
 interface Partner {
     id: number;
@@ -30,6 +32,7 @@ interface Partner {
 
 interface Props {
     partner: Partner;
+    activeTab: string;
 }
 
 const statusColors = {
@@ -39,18 +42,14 @@ const statusColors = {
     cancelled: 'bg-gray-100 text-gray-800 border-gray-200',
 };
 
-const statusLabels = {
-    pending: 'Pending',
-    connected: 'Connected',
-    rejected: 'Rejected',
-    cancelled: 'Cancelled',
-};
 
-export default function PartnerCard({ partner }: Props) {
+export default function PartnerCard({ partner, activeTab }: Props) {
     const [connectionStatus, setConnectionStatus] = useState(partner.connection_status);
     const [connectionId, setConnectionId] = useState(partner.connection_id);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isSendingRequest, setIsSendingRequest] = useState(false);
+
+    const availableStatuses = getAvailableStatusLabels(activeTab, partner.connection_status);
 
     const handleStatusChange = async (newStatus: string) => {
         if (!connectionId) return;
@@ -183,6 +182,7 @@ export default function PartnerCard({ partner }: Props) {
             {connectionId && (
                 <div className="px-4 pb-3">
                     <label className="block text-xs font-medium text-gray-700 mb-1">Connection Status</label>
+
                     <select
                         value={connectionStatus || 'pending'}
                         onChange={(e) => handleStatusChange(e.target.value)}
@@ -191,10 +191,9 @@ export default function PartnerCard({ partner }: Props) {
                             connectionStatus ? statusColors[connectionStatus as keyof typeof statusColors] : ''
                         } ${isUpdating ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                     >
-                        <option value="pending">Pending</option>
-                        <option value="connected">Connected</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="cancelled">Cancelled</option>
+                        {Object.entries(availableStatuses).map(([value, label]) => (
+                            <option key={value} value={value}>{label}</option>
+                        ))}
                     </select>
                 </div>
             )}
@@ -249,8 +248,13 @@ export default function PartnerCard({ partner }: Props) {
             {Object.keys(partner.contact_links || {}).length > 0 && (
                 <div className="px-4 pb-3">
                     <label className="block text-xs font-medium text-gray-700 mb-2">Contact</label>
+                    <div>
+                        {activeTab == 'sent' &&
+                        <span className="text-amber-600">You can contact them after they accept request</span>
+                        }
+                    </div>
                     <div className="flex flex-wrap gap-2">
-                        {Object.entries(partner.contact_links).map(([platform, value]) => (
+                        {activeTab !== 'sent' && Object.entries(partner.contact_links).map(([platform, value]) => (
                             <a
                                 key={platform}
                                 href={value}

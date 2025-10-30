@@ -3,6 +3,8 @@
 import { Head, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import PartnerCard from '@/Components/Speaking/PartnerCard';
+import {statusLabels} from "@/Pages/Speaking/SpeakingData";
+import {getAvailableStatusLabels} from "@/utils/speakingConnectHandler";
 
 interface Partner {
     id: number;
@@ -143,7 +145,11 @@ export default function Partners({ sentRequests, receivedRequests, favorites, ac
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {activeData.map((partner) => (
-                                    <PartnerCard key={`${partner.partner_type}-${partner.id}`} partner={partner} />
+                                    <PartnerCard
+                                        key={`${partner.partner_type}-${partner.id}`}
+                                        partner={partner}
+                                        activeTab={activeTab}
+                                    />
                                 ))}
                             </div>
                         )}

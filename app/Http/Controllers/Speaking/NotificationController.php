@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Speaking;
 
+use App\helpers\AppData;
 use App\Http\Controllers\Controller;
+use App\Models\Speaking\ConnectionRequest;
 use App\Models\Speaking\SpeakingPushSubscription;
 use App\Models\SpeakingNotificationLog;
 use App\Models\User;
@@ -123,6 +125,26 @@ class NotificationController extends Controller
                     'success' => false,
                     'message' => 'User has not enabled notifications'
                 ], 404);
+            }
+
+            // save connection request data
+            $status = AppData::$connectionStatusLabels['pending'];
+            $existingRequest = ConnectionRequest::where(function($query) use ($senderId, $receiverId) {
+                $query->where('sender_id', $senderId)
+                    ->where('receiver_id', $receiverId);
+            })->orWhere(function($query) use ($senderId, $receiverId) {
+                $query->where('sender_id', $receiverId)
+                    ->where('receiver_id', $senderId);
+            })->where('status', 'pending')
+                ->first();
+
+            if (! $existingRequest) {
+                ConnectionRequest::create([
+                    'sender_id' => $senderId,
+                    'receiver_id' => $receiverId,
+                    'status' => $status,
+                    'message' => 'I want to practice english speaking with you.. please accept connection request',
+                ]);
             }
 
             // Send push notification
