@@ -5,7 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+{{--        <title inertia>{{ config('app.name', 'Laravel') }}</title>--}}
+        <title>Find Your Speaking Partner</title>
+
+        <meta name="description" content="Match English speakers at your level" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Find Your Speaking Partner" />
+        <meta property="og:description" content="Find Your Perfect Speaking Partner Who Matches Your Level" />
+        <meta property="og:image" content="https://practice-english.jovoc.com/images/lets-practice-english-daily.png" />
+        <meta property="og:url" content="https://practice-english.jovoc.com/" />
+        <meta property="og:site_name" content="Practice English" />
+        <meta property="og:locale" content="en_US" />
+
+        <!-- Optional Facebook Extras -->
+        <meta property="fb:app_id" content="YOUR_FB_APP_ID" />
+        <meta name="author" content="Find Speaking Partner Team" />
+
 
         <!-- OneSignal SDK -->
         <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
