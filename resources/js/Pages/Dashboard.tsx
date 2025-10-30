@@ -16,8 +16,9 @@ export default function Dashboard() {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            You're logged in!
-                            <p><a className="text-blue-600" href="/">Go to Home</a></p>
+                            <span className="hidden">You're logged in!</span>
+                            <p className="my-2"><a className="text-blue-600" href="/speaking/profile">My Speaking Profile</a></p>
+                            {/*<p className="my-2"><a className="text-blue-600" href="/">Go to Home</a></p>*/}
                         </div>
                     </div>
                 </div>
