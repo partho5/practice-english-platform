@@ -31,7 +31,7 @@ export default function SpeakingHintsSection() {
                 }}
             >
                 <span className="relative z-10 drop-shadow-sm">
-                    ✨ Get Hints
+                    ✨ Give a passage to read
                 </span>
                 <div
                     className="absolute inset-0 opacity-0 hover:opacity-20 transition-opacity duration-300"
